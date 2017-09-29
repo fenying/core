@@ -3,13 +3,14 @@
     "description" : "The core of LiteRT.",
     "type" : "library",
     "license" : "Apache-2.0",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "autoload" : {
         "psr-4" : {
             "L\\Core\\" : "lib"
         },
         "files":[
-            "lib/lang_ext.php"
+            "lib/lang_ext.php",
+            "lib/errors.php"
         ]
     },
     "homepage" : "https://fenying.net",
@@ -22,21 +23,19 @@
         "php": ">=7.0.0"
     },
     "authors" : [{
-            "name" : "Angus.Fenying",
-            "email" : "i.am.x.fenying@gmail.com",
-            "homepage" : "https://fenying.net",
-            "role" : "Master"
-        }
-    ],
+        "name" : "Angus.Fenying",
+        "email" : "i.am.x.fenying@gmail.com",
+        "homepage" : "https://fenying.net",
+        "role" : "Master"
+    }],
     "keywords" : [
-        "privilege", "control"
+        "core", "litert"
     ],
     "repositories" : [{
-            "type" : "git",
-            "url" : "git@github.com:litert/core.git",
-            "name" : "IoC"
-        }
-    ],
+        "type" : "git",
+        "url" : "git@github.com:litert/core.git",
+        "name" : "core"
+    }],
     "extra": {
         "branch-alias": {
             "dev-master": "0.1.x-dev"

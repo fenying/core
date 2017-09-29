@@ -14,10 +14,11 @@
    +----------------------------------------------------------------------+
  */
 
-declare (strict_types = 1);
+declare (strict_types=1);
 
-namespace L\Core;
+namespace L\Error;
 
-class Exception extends \Exception
-{
-}
+/**
+ * All error codes below this value, is defined by LiteRT.
+ */
+const USER_SEGMENT_BASE = 0x10000000;

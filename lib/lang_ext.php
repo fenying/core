@@ -1,9 +1,19 @@
 <?php
-/**
- * This file introduces extended functions for PHP.
- *
- * @author Angus.Fenying
+/*
+   +----------------------------------------------------------------------+
+   | LiteRT Core Library                                                  |
+   +----------------------------------------------------------------------+
+   | Copyright (c) 2007-2017 Fenying Studio                               |
+   +----------------------------------------------------------------------+
+   | This source file is subject to version 2.0 of the Apache license,    |
+   | that is bundled with this package in the file LICENSE, and is        |
+   | available through the world-wide-web at the following url:           |
+   | https://github.com/litert/core/blob/master/LICENSE                   |
+   +----------------------------------------------------------------------+
+   | Authors: Angus Fenying <i.am.x.fenying@gmail.com>                    |
+   +----------------------------------------------------------------------+
  */
+
 declare(strict_types = 1);
 
 namespace L;
@@ -35,21 +45,21 @@ const RAND_SEED_LUN = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234
 function array_part(array $arr, array $keys): array
 {
     $rtn = [];
-    
+
     foreach ($keys as $key) {
-        
+
         $rtn[$key] = $arr[$key];
     }
-    
+
     return $rtn;
 }
 
 function array_exist_keys(array $arr, array $keys): bool
 {
     foreach ($keys as $k) {
-        
+
         if (!array_key_exists($k, $arr)) {
-            
+
             return false;
         }
     }
@@ -57,7 +67,10 @@ function array_exist_keys(array $arr, array $keys): bool
     return true;
 }
 
-function str_rand(int $length, string $source = RAND_SEED_LUN): string
+function createRandomString(
+    int $length,
+    string $source = RAND_SEED_LUN
+): string
 {
     $sourceLength = strlen($source);
     $temp = '';
@@ -109,17 +122,17 @@ function size2string(int $size, string $spliter = ' '): string
     return round($size, 2) . $spliter . $units[$i];
 }
 
-function is_email(string $email): bool
+function isEMail(string $email): bool
 {
     return preg_match(REXP_EMAIL, $email) ? true : false;
 }
 
-function is_ipv4(string $ip): bool
+function isIPv4Address(string $ip): bool
 {
     return preg_match(REXP_IPV4, $ip) ? true : false;
 }
 
-function is_hex(string $s): bool
+function isHexString(string $s): bool
 {
     return preg_match(REXP_HEX, $s) ? true : false;
 }
