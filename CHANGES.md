@@ -6,6 +6,7 @@
 - Added new trait **TEventListener** for listening and handling event.
 - Added core class **EventBus** to handling the core events such as `error` 
 and `shutdown`.
+- Added documents in Simplified Chinese.
 
 ## v0.1.1
 

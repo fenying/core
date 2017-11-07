@@ -22,7 +22,9 @@ error_reporting(0);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-\L\Core\EventBus::getInstance()->on('error', function(array $e) {
+L\Core\boot();
+
+L\Core\EventBus::getInstance()->on('error', function(array $e) {
 
     echo 'Error: ';
     print_r($e);

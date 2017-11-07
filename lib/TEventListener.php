@@ -101,7 +101,7 @@ trait TEventListener
      *
      * @return static
      */
-    public function removeAllListener(
+    public function removeAllListeners(
         string $event
     )
     {

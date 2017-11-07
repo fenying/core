@@ -16,123 +16,134 @@
 
 declare (strict_types = 1);
 
-use L\Core\EventBus;
+namespace L\Core;
 
-$errorHandler = function(
-    int $code,
-    string $error,
-    string $file,
-    int $line,
-    $isException = false
-) {
+/**
+ * Bootstrap of the LiteRT/Core.
+ */
+function boot()
+{
+    $errorHandler = function(
+        int $code,
+        string $error,
+        string $file,
+        int $line,
+        $isException = false
+    ) {
 
-    $e = [
-        'code' => $code,
-        'message' => $error,
-        'file' => $file,
-        'line' => $line
-    ];
+        $e = [
+            'code' => $code,
+            'message' => $error,
+            'file' => $file,
+            'line' => $line
+        ];
 
-    if ($isException === true) {
+        if ($isException === true) {
 
-        $e['type'] = 'exception';
-        $e['level'] = 'error';
-    }
-    else {
-
-        switch ($e['code']) {
-        case E_NOTICE:
-            $e['type'] = 'notice';
-            $e['level'] = 'warning';
-            break;
-        case E_WARNING:
-            $e['type'] = 'warning';
-            $e['level'] = 'warning';
-            break;
-        case E_COMPILE_WARNING:
-            $e['type'] = 'compile-warning';
-            $e['level'] = 'warning';
-            break;
-        case E_USER_WARNING:
-            $e['type'] = 'user-warning';
-            $e['level'] = 'warning';
-            break;
-        case E_USER_NOTICE:
-            $e['type'] = 'user-notice';
-            $e['level'] = 'warning';
-            break;
-        case E_STRICT:
-            $e['type'] = 'strict';
-            $e['level'] = 'warning';
-            break;
-        case E_DEPRECATED:
-            $e['type'] = 'deprecated';
-            $e['level'] = 'error';
-            break;
-        case E_ERROR:
-            $e['type'] = 'error';
-            $e['level'] = 'error';
-            break;
-        case E_CORE_ERROR:
-            $e['type'] = 'core-error';
-            $e['level'] = 'error';
-            break;
-        case E_RECOVERABLE_ERROR:
-            $e['type'] = 'recoverable-error';
-            $e['level'] = 'error';
-            break;
-        case E_COMPILE_ERROR:
-            $e['type'] = 'compile-error';
-            $e['level'] = 'error';
-            break;
-        case E_PARSE:
-            $e['type'] = 'parse';
-            $e['level'] = 'error';
-            break;
-        case E_USER_DEPRECATED:
-            $e['type'] = 'user-deprecated';
-            $e['level'] = 'error';
-            break;
-        default:
-            $e['type'] = 'unknown';
+            $e['type'] = 'exception';
             $e['level'] = 'error';
         }
+        else {
 
-        error_clear_last();
-    }
+            switch ($e['code']) {
+            case E_NOTICE:
+                $e['type'] = 'notice';
+                $e['level'] = 'warning';
+                break;
+            case E_WARNING:
+                $e['type'] = 'warning';
+                $e['level'] = 'warning';
+                break;
+            case E_USER_DEPRECATED:
+                $e['type'] = 'user-deprecated';
+                $e['level'] = 'warning';
+                break;
+            case E_COMPILE_WARNING:
+                $e['type'] = 'compile-warning';
+                $e['level'] = 'warning';
+                break;
+            case E_USER_WARNING:
+                $e['type'] = 'user-warning';
+                $e['level'] = 'warning';
+                break;
+            case E_USER_NOTICE:
+                $e['type'] = 'user-notice';
+                $e['level'] = 'warning';
+                break;
+            case E_STRICT:
+                $e['type'] = 'strict';
+                $e['level'] = 'warning';
+                break;
+            case E_DEPRECATED:
+                $e['type'] = 'deprecated';
+                $e['level'] = 'warning';
+                break;
+            case E_ERROR:
+                $e['type'] = 'error';
+                $e['level'] = 'error';
+                break;
+            case E_CORE_ERROR:
+                $e['type'] = 'core-error';
+                $e['level'] = 'error';
+                break;
+            case E_RECOVERABLE_ERROR:
+                $e['type'] = 'recoverable-error';
+                $e['level'] = 'error';
+                break;
+            case E_COMPILE_ERROR:
+                $e['type'] = 'compile-error';
+                $e['level'] = 'error';
+                break;
+            case E_PARSE:
+                $e['type'] = 'parse';
+                $e['level'] = 'error';
+                break;
+            case E_USER_ERROR:
+                $e['type'] = 'user-error';
+                $e['level'] = 'error';
+                break;
+            default:
+                $e['type'] = 'user-custom';
+                $e['level'] = 'error';
+            }
 
-    EventBus::getInstance()->emit(
-        'error',
-        $e
-    );
-};
+            error_clear_last();
+        }
 
-register_shutdown_function(function() use ($errorHandler) {
+        EventBus::getInstance()->emit(
+            'error',
+            $e
+        );
+    };
 
-    if ($e = error_get_last()) {
+    register_shutdown_function(function() use ($errorHandler) {
+
+        if ($e = error_get_last()) {
+
+            $errorHandler(
+                $e['type'],
+                $e['message'],
+                $e['file'],
+                $e['line']
+            );
+        }
+
+        EventBus::getInstance()->emit('shutdown');
+    });
+
+    set_error_handler($errorHandler);
+
+    set_exception_handler(function(\Throwable $e) use ($errorHandler) {
 
         $errorHandler(
-            $e['type'],
-            $e['message'],
-            $e['file'],
-            $e['line']
+            $e->getCode(),
+            $e->getMessage(),
+            $e->getFile(),
+            $e->getLine(),
+            true
         );
-    }
+    });
 
-    EventBus::getInstance()->emit('shutdown');
-});
+    unset($errorHandler);
 
-set_error_handler($errorHandler);
-
-set_exception_handler(function(\Throwable $e) use ($errorHandler) {
-
-    $errorHandler(
-        $e->getCode(),
-        $e->getMessage(),
-        $e->getFile(),
-        $e->getLine(),
-        true
-    );
-});
-
-unset($errorHandler);
+}
