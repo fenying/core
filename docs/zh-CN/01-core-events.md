@@ -1,6 +1,6 @@
 # Core 事件
 
-> [下一章：概述](./00-overview.md) | [目录](./index.md)
+> [上一章：概述](./00-overview.md) | [目录](./index.md)
 
 ## 1. 启动核心事件监听
 
