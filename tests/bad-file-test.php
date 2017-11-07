@@ -14,11 +14,7 @@
    +----------------------------------------------------------------------+
  */
 
-declare (strict_types=1);
+declare (strict_types = 1);
 
-namespace L\Error;
-
-/**
- * All error codes below this value, is defined by LiteRT.
- */
-const USER_SEGMENT_BASE = 0x10000000;
+daa
+// for syntax error testing.

@@ -3,14 +3,14 @@
     "description" : "The core of LiteRT.",
     "type" : "library",
     "license" : "Apache-2.0",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "autoload" : {
         "psr-4" : {
             "L\\Core\\" : "lib"
         },
         "files":[
-            "lib/lang_ext.php",
-            "lib/errors.php"
+            "lib/LanguageExtension.php",
+            "lib/ErrorHandler.php"
         ]
     },
     "homepage" : "https://fenying.net",
