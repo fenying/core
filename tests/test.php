@@ -33,6 +33,11 @@ L\Core\EventBus::getInstance()->on('error', function(array $e) {
     echo 'Bye bye', PHP_EOL;
 });
 
+if (L\Core\EventBus::getInstance()->hasListeners('error')) {
+
+    echo 'Registered error handler.', PHP_EOL;
+}
+
 $num = 0;
 
 echo 1 / $num;

@@ -157,4 +157,35 @@ protected function __initEvents()
 
 无。
 
+---------------------------------------------------------------
+
+## 6. 方法 hasListeners
+
+### 6.1. 用途
+
+判断指定事件是否有注册监听函数。
+
+### 6.2. 定义
+
+```php
+/**
+ * Tell if there are listeners of an event.
+ *
+ * @param string $event
+ *
+ * @return bool
+ */
+public function hasListeners(
+    string $event
+): bool
+```
+
+### 6.3. 参数说明
+
+- string **$event** 要检查的事件名称
+
+### 6.4. 返回值
+
+如果该事件有监听函数，则返回 true。否则返回 false。
+
 > [下一章：工具函数](./03-Function-Extensions.md) | [目录](./index.md)

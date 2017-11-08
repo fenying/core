@@ -111,6 +111,20 @@ trait TEventListener
     }
 
     /**
+     * Tell if there are listeners of an event.
+     *
+     * @param string $event
+     *
+     * @return bool
+     */
+    public function hasListeners(
+        string $event
+    ): bool
+    {
+        return count($this->_events[$event] ?? []) > 0;
+    }
+
+    /**
      * Emit an event.
      *
      * @param string $event

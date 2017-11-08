@@ -1,5 +1,9 @@
 # Changes Logs
 
+## v0.2.1
+
+- Added method **hasListeners** for trait **TEventListener**.
+
 ## v0.2.0
 
 - Added global error handler.
